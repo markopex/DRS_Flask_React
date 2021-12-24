@@ -1,0 +1,2 @@
+npx create-react-app <name>             --> Creates a new react app
+npm start                               --> Starts the react app

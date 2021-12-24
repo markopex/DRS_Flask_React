@@ -1,0 +1,17 @@
+.container {
+  margin-top: 50px;
+}
+
+.heading {
+  font-size: 3em;
+}
+
+.link {
+  text-decoration: none;
+  color: white;
+}
+
+.form {
+  margin: auto;
+  width: 35%;
+}
