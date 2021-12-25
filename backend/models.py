@@ -72,7 +72,7 @@ class User(db.Model):
         db.session.commit()
     
     def activate(self):
-        self.isActive = true
+        self.isActive = True
         db.session.commit()
 
 class Account(db.Model):
@@ -83,6 +83,10 @@ class Account(db.Model):
 
     def save(self):
         db.session.add(self)
+        db.session.commit()
+
+    def AddToBalance(self, amount):
+        self.balance = self.balance + amount
         db.session.commit()
 
 # class OnlineTransaction(db.Model):

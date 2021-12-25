@@ -173,7 +173,7 @@ class ActivateUser(Resource):
         current_user = get_jwt_identity()
         user = User.query.filter_by(email = current_user).first()
 
-        if(user.activated):
+        if(user.isActive == True):
             return jsonify({'message' : 'User already activated.'})  
 
         user.activate()
@@ -233,3 +233,6 @@ class AccountBalance(Resource):
             output.append(account_data)
 
         return jsonify({"accounts":output})
+
+
+        
