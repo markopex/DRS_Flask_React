@@ -61,10 +61,24 @@ class User(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def update(self, password, lastname, firstname, address, city, country, phone):
+        self.password = password
+        self.lastname = lastname
+        self.firstname = firstname
+        self.address = address
+        self.city = city
+        self.country = country
+        self.phone = phone
+        db.session.commit()
+
 class Account(db.Model):
     id = db.Column(db.String, primary_key=True)
-    balance = db.Column(db.Numeric)
-    currency = db.Column(db.String(3))
+    balance = db.Column(db.Numeric, nullable=False)
+    currency = db.Column(db.String(3), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
 
-    
+# class Transaction(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     amount = db.Column(db.Numeric, nullable=False)
+#     from_user = db.Column(db.id, db.ForeignKey(User.id))
+#     to_user = db.Column(db.String, nullable=False)
