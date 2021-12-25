@@ -19,7 +19,7 @@ const HomePage = () => {
     fetch("http://localhost:5000/auth/account-balance", requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log("------------aaaa------------\n", data);
         setAccountBalance(data);
       })
       .catch((err) => console.log(err));
@@ -33,15 +33,15 @@ const HomePage = () => {
         <thead>
           <tr>
             <th>Account number</th>
-            <td>{accountBalance.id}</td>
+            <td>{accountBalance.accounts[0].id}</td>
           </tr>
           <tr>
             <th>Balance</th>
-            <td>{accountBalance.balance}</td>
+            <td>{accountBalance.accounts[0].balance}</td>
           </tr>
           <tr>
             <th>Currency</th>
-            <td>{accountBalance.currency}</td>
+            <td>{accountBalance.accounts[0].currency}</td>
           </tr>
         </thead>
         <tbody></tbody>
