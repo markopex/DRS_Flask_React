@@ -135,7 +135,17 @@ class Login(Resource):
         else:
             return make_response(jsonify({"message": "Invalid email or password"}), 401)
 
-        return jsonify({"access_token": access_token, "refresh_token":refresh_token})
+        return jsonify({"access_token": access_token, "refresh_token":refresh_token, "userData": {
+            "username":db_user.username,
+            "email":db_user.email,
+            "firstname":db_user.firstname,
+            "lastname":db_user.lastname,
+            "address":db_user.address,
+            "city":db_user.city,
+            "country":db_user.country,
+            "phone":db_user.phone,
+            "isActive":db_user.isActive
+        }})
 
 
 @auth_ns.route('/refresh')
@@ -158,12 +168,13 @@ class ActivateUser(Resource):
         #check bank card
 
         current_user = get_jwt_identity()
-
         user = User.query.filter_by(email = current_user).first()
+
         if(user.activated):
             return jsonify({'message' : 'User already activated.'})  
 
         user.activate()
+
         return jsonify({'message' : 'User successfully activated.'}) 
 
 @auth_ns.route('/userinfo')
