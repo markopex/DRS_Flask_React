@@ -28,6 +28,11 @@ const LoggedInLinks = () => {
           Log Out
         </a>
       </li>
+      <li className="nav-item">
+        <Link className="nav-link active" to="/profile-settings">
+          Profile Settings
+        </Link>
+      </li>
     </>
   );
 };

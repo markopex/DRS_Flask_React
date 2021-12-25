@@ -19,6 +19,12 @@ const SignUpPage = () => {
         username: data.username,
         email: data.email,
         password: data.password,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        address: data.address,
+        city: data.city,
+        country: data.country,
+        phone: data.phone,
       };
 
       const requestOptions = {
@@ -104,6 +110,121 @@ const SignUpPage = () => {
             )}
           </Form.Group>
           <br></br>
+
+          <Form.Group>
+            <Form.Label>First name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Your firstname"
+              {...register("firstname", { required: true, maxLength: 25 })}
+            />
+
+            {errors.firstname && (
+              <small style={{ color: "red" }}>First name is required</small>
+            )}
+            {errors.firstname?.type === "maxLength" && (
+              <p style={{ color: "red" }}>
+                <small>Max characters should be 25 </small>
+              </p>
+            )}
+          </Form.Group>
+          <br />
+
+          <Form.Group>
+            <Form.Label>Last name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Your lastname"
+              {...register("lastname", { required: true, maxLength: 25 })}
+            />
+
+            {errors.lastname && (
+              <small style={{ color: "red" }}>Last name is required</small>
+            )}
+            {errors.lastname?.type === "maxLength" && (
+              <p style={{ color: "red" }}>
+                <small>Max characters should be 25 </small>
+              </p>
+            )}
+          </Form.Group>
+          <br />
+
+          <Form.Group>
+            <Form.Label>Address</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Your address"
+              {...register("address", { required: true, maxLength: 25 })}
+            />
+
+            {errors.address && (
+              <small style={{ color: "red" }}>Address is required</small>
+            )}
+            {errors.address?.type === "maxLength" && (
+              <p style={{ color: "red" }}>
+                <small>Max characters should be 25 </small>
+              </p>
+            )}
+          </Form.Group>
+          <br />
+
+          <Form.Group>
+            <Form.Label>City</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Your city"
+              {...register("city", { required: true, maxLength: 25 })}
+            />
+
+            {errors.city && (
+              <small style={{ color: "red" }}>City is required</small>
+            )}
+            {errors.city?.type === "maxLength" && (
+              <p style={{ color: "red" }}>
+                <small>Max characters should be 25 </small>
+              </p>
+            )}
+          </Form.Group>
+          <br />
+
+          <Form.Group>
+            <Form.Label>Country</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Your country"
+              {...register("country", { required: true, maxLength: 25 })}
+            />
+
+            {errors.country && (
+              <small style={{ color: "red" }}>Country is required</small>
+            )}
+            {errors.country?.type === "maxLength" && (
+              <p style={{ color: "red" }}>
+                <small>Max characters should be 25 </small>
+              </p>
+            )}
+          </Form.Group>
+          <br />
+
+          <Form.Group>
+            <Form.Label>Phone</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Your phone"
+              {...register("phone", { required: true, maxLength: 25 })}
+            />
+
+            {errors.phone && (
+              <small style={{ color: "red" }}>Phone is required</small>
+            )}
+            {errors.phone?.type === "maxLength" && (
+              <p style={{ color: "red" }}>
+                <small>Max characters should be 25 </small>
+              </p>
+            )}
+          </Form.Group>
+          <br />
+
           <Form.Group>
             <Form.Label>Password</Form.Label>
             <Form.Control

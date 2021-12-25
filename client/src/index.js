@@ -6,6 +6,7 @@ import HomePage from "./components/Home";
 import LoginPage from "./components/Login";
 import SignUpPage from "./components/SignUp";
 import CreateRecipePage from "./components/CrateRecipe";
+import ProfileSettingsPage from "./components/ProfileSettings";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -20,6 +21,11 @@ const App = () => {
             exact
             path="/create-recipe"
             element={<CreateRecipePage />}
+          ></Route>
+          <Route
+            exact
+            path="/profile-settings"
+            element={<ProfileSettingsPage />}
           ></Route>
           <Route exact path="/login" element={<LoginPage />}></Route>
           <Route exact path="/signup" element={<SignUpPage />}></Route>
