@@ -47,6 +47,20 @@ activate_model = auth_ns.model(
     }
 )
 
+user_edit_model = auth_ns.model(
+    'User', 
+    {
+        "email":fields.String(),
+        "password":fields.String(),
+        "firstname":fields.String(),
+        "lastname":fields.String(),
+        "address":fields.String(),
+        "city":fields.String(),
+        "country":fields.String(),
+        "phone":fields.String()
+    }
+)
+
 @auth_ns.route('/signup')
 class SigunUp(Resource):
     @auth_ns.expect(signup_model)
@@ -124,8 +138,6 @@ class ActivateUser(Resource):
 
         current_user = get_jwt_identity()
 
-        print('------------', current_user)
-
         user = db.session.query(User).filter(email = current_user).first()
         if(user.activated):
             return jsonify({'message' : 'User already activated.'})    
@@ -140,4 +152,15 @@ class ActivateUser(Resource):
         db.session.commit()
 
         return jsonify({'message' : 'User successfully activated.'}) 
-        
+
+@auth_ns.route('/userinfo')
+class UserResource(Resource):
+    @jwt_required
+    @auth_ns.expect(user_edit_model)
+    @auth_ns.marshal_with(user_edit_model)
+    def get(self):
+        current_user = get_jwt_identity()
+
+        user = db.session.query(User).filter(email = current_user).first()
+
+        return user
