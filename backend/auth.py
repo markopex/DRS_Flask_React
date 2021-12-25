@@ -1,5 +1,6 @@
 from flask_restx import Api, Resource, Namespace, fields
 from models import User
+from models import Account
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import (
     JWTManager,
@@ -8,6 +9,7 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt_identity
     )
+import uuid
 from flask import Flask, request, jsonify, make_response
 
 
@@ -105,14 +107,15 @@ class SigunUp(Resource):
             phone=data.get('phone'),
             isActive=False
         )
-        
         new_user.save()
+        user = User.query.filter_by(email=new_user.email).first()
         account = Account(
-            id = uuid.uuid4(),
+            id = str(uuid.uuid4()),
             user_id = user.id,
             balance=0,
             currency="RSD",
-            )
+        )
+        
         account.save()
         
         return jsonify({"message": f"User created successfully"})
@@ -208,3 +211,25 @@ class UserResource(Resource):
             )
         
         return jsonify({"message": f"User updated successfully"})
+
+@auth_ns.route('/account-balance')
+class AccountBalance(Resource):
+    @jwt_required()
+    def get(self):
+        current_user = get_jwt_identity()
+
+        user = User.query.filter_by(email = current_user).first()
+
+        accounts = Account.query.filter_by(user_id = user.id)
+
+        output = []
+
+        for account in accounts:
+            account_data = {}
+            account_data['id'] = account.id
+            account_data['balance'] = account.balance
+            account_data['currency'] = account.currency
+            account_data['user_id'] = account.user_id
+            output.append(account_data)
+
+        return jsonify({"accounts":output})

@@ -77,7 +77,7 @@ class User(db.Model):
 
 class Account(db.Model):
     id = db.Column(db.String, primary_key=True)
-    balance = db.Column(db.Numeric, nullable=False)
+    balance = db.Column(db.DECIMAL(12,2), nullable=False)
     currency = db.Column(db.String(3), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
 
@@ -85,7 +85,13 @@ class Account(db.Model):
         db.session.add(self)
         db.session.commit()
 
-# class Transaction(db.Model):
+# class OnlineTransaction(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     amount = db.Column(db.Numeric, nullable=False)
+#     from_user = db.Column(db.id, db.ForeignKey(User.id))
+#     to_user = db.Column(db.id, db.ForeignKey(User.id))
+
+# class BankTransaction(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
 #     amount = db.Column(db.Numeric, nullable=False)
 #     from_user = db.Column(db.id, db.ForeignKey(User.id))
