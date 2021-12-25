@@ -61,6 +61,20 @@ user_edit_model = auth_ns.model(
     }
 )
 
+user_model = auth_ns.model(
+    'User', 
+    {
+        "username":fields.String(),
+        "email":fields.String(),
+        "firstname":fields.String(),
+        "lastname":fields.String(),
+        "address":fields.String(),
+        "city":fields.String(),
+        "country":fields.String(),
+        "phone":fields.String()
+    }
+)
+
 @auth_ns.route('/signup')
 class SigunUp(Resource):
     @auth_ns.expect(signup_model)
@@ -138,7 +152,7 @@ class ActivateUser(Resource):
 
         current_user = get_jwt_identity()
 
-        user = db.session.query(User).filter(email = current_user).first()
+        user = User.query.filter_by(email = current_user).first()
         if(user.activated):
             return jsonify({'message' : 'User already activated.'})    
         user.activated = True
@@ -155,12 +169,45 @@ class ActivateUser(Resource):
 
 @auth_ns.route('/userinfo')
 class UserResource(Resource):
-    @jwt_required
-    @auth_ns.expect(user_edit_model)
-    @auth_ns.marshal_with(user_edit_model)
+    @jwt_required()
+    @auth_ns.marshal_with(user_model)
     def get(self):
         current_user = get_jwt_identity()
 
-        user = db.session.query(User).filter(email = current_user).first()
+        user = User.query.filter_by(email = current_user).first()
 
         return user
+    
+    @jwt_required()
+    @auth_ns.expect(user_edit_model)
+    def put(self):
+        data = request.get_json()
+        
+        username = data.get('username')
+        email = data.get('email')
+
+        db_user = User.query.filter_by(username=username).first()
+        db_email = User.query.filter_by(email=email).first()
+
+        if db_user is not None:
+            return jsonify({"message": f"User with username {username} already exists"})
+
+        if db_email is not None:
+            return jsonify({"message": f"User with email {email} already exists"})
+
+        new_user = User(
+            username = data.get('username'),
+            email = data.get('email'),
+            password = generate_password_hash(data.get('password')),
+            firstname=data.get('firstname'),
+            lastname=data.get('lastname'),
+            address=data.get('address'),
+            city=data.get('city'),
+            country=data.get('country'),
+            phone=data.get('phone'),
+            isActive=False
+        )
+        
+        new_user.save()
+        
+        return jsonify({"message": f"User created successfully"})

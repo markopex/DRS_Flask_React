@@ -4,4 +4,4 @@ from config import DevConfig
 
 if __name__ == '__main__':
     app = create_app(DevConfig)
-    app.run()
+    app.run(debug=True, use_debugger=False, use_reloader=False)
