@@ -22,6 +22,12 @@ signup_model = auth_ns.model(
         "username":fields.String(),
         "email":fields.String(),
         "password":fields.String(),
+        "firstname":fields.String(),
+        "lastname":fields.String(),
+        "address":fields.String(),
+        "city":fields.String(),
+        "country":fields.String(),
+        "phone":fields.String()
     }
 )
 
@@ -29,6 +35,15 @@ login_model = auth_ns.model(
     'Login', {
         'email':fields.String(),
         'password':fields.String(),
+    }
+)
+
+activate_model = auth_ns.model(
+    'Activate', {
+        'card_number': fields.String(),
+        'name': fields.String(),
+        'expired_date': fields.String(),
+        'secure_code': fields.String()
     }
 )
 
@@ -53,7 +68,14 @@ class SigunUp(Resource):
         new_user = User(
             username = data.get('username'),
             email = data.get('email'),
-            password = generate_password_hash(data.get('password'))
+            password = generate_password_hash(data.get('password')),
+            firstname=data.get('firstname'),
+            lastname=data.get('lastname'),
+            address=data.get('address'),
+            city=data.get('city'),
+            country=data.get('country'),
+            phone=data.get('phone'),
+            isActive=False
         )
         
         new_user.save()
@@ -91,3 +113,31 @@ class RefreshResource(Resource):
         new_access_token = create_access_token(identity=current_user)
 
         return make_response(jsonify({"access_token": new_access_token}), 200)
+
+@auth_ns.route('/activate')
+class ActivateUser(Resource):
+    @jwt_required()    
+    @auth_ns.expect(activate_model)
+    def post(self):
+        card = request.get_json()
+        #check bank card
+
+        current_user = get_jwt_identity()
+
+        print('------------', current_user)
+
+        user = db.session.query(User).filter(email = current_user).first()
+        if(user.activated):
+            return jsonify({'message' : 'User already activated.'})    
+        user.activated = True
+        account = Account(
+            id = uuid.uuid4(),
+            user_id = user.id,
+            balance=0,
+            currency="RSD",
+            )
+        db.session.add(account)
+        db.session.commit()
+
+        return jsonify({'message' : 'User successfully activated.'}) 
+        

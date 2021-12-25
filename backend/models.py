@@ -46,10 +46,25 @@ class User(db.Model):
     username = db.Column(db.String(25), nullable=False, unique=True)
     email = db.Column(db.String(25), nullable=False, unique=True)
     password = db.Column(db.Text(), nullable=False)
+    lastname = db.Column(db.String(50), nullable=False)
+    firstname = db.Column(db.String(50), nullable=False)
+    address = db.Column(db.String(50), nullable=False)
+    city = db.Column(db.String(50), nullable=False)
+    country = db.Column(db.String(50), nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
+    isActive = db.Column(db.Boolean, nullable=False)
 
     def _repr_(self):
         return f'<User {self.username}>'
-        
+
     def save(self):
         db.session.add(self)
         db.session.commit()
+
+class Account(db.Model):
+    id = db.Column(db.String, primary_key=True)
+    balance = db.Column(db.Numeric)
+    currency = db.Column(db.String(3))
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+
+    
