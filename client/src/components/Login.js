@@ -33,6 +33,8 @@ const LoginPage = () => {
 
         if (data) {
           login(data.access_token);
+          console.log("------------", data);
+          localStorage.setItem("userData", JSON.stringify(data.userData));
 
           navigate("/");
         } else {

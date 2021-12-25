@@ -33,6 +33,11 @@ const LoggedInLinks = () => {
           Profile Settings
         </Link>
       </li>
+      <li className="nav-item">
+        <Link className="nav-link active" to="/account-balance">
+          Account balance
+        </Link>
+      </li>
     </>
   );
 };
