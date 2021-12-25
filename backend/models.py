@@ -70,12 +70,20 @@ class User(db.Model):
         self.country = country
         self.phone = phone
         db.session.commit()
+    
+    def activate(self):
+        self.isActive = true
+        db.session.commit()
 
 class Account(db.Model):
     id = db.Column(db.String, primary_key=True)
     balance = db.Column(db.Numeric, nullable=False)
     currency = db.Column(db.String(3), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
 # class Transaction(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)

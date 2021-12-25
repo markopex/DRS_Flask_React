@@ -70,7 +70,8 @@ user_model = auth_ns.model(
         "address":fields.String(),
         "city":fields.String(),
         "country":fields.String(),
-        "phone":fields.String()
+        "phone":fields.String(),
+        "isActive":fields.String()
     }
 )
 
