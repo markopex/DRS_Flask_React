@@ -85,18 +85,24 @@ class Account(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def AddToBalance(self, amount):
+    def UpdateBalance(self, amount):
         self.balance = self.balance + amount
         db.session.commit()
 
-# class OnlineTransaction(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     amount = db.Column(db.Numeric, nullable=False)
-#     from_user = db.Column(db.id, db.ForeignKey(User.id))
-#     to_user = db.Column(db.id, db.ForeignKey(User.id))
+class OnlineTransaction(db.Model):
+     id = db.Column(db.Integer, primary_key=True)
+     amount = db.Column(db.Numeric, nullable=False)
+     from_user = db.Column(db.id, db.ForeignKey(User.id))
+     to_user = db.Column(db.id, db.ForeignKey(User.id))
+     currency = db.Column(db.String(3), nullable=False)
 
-# class BankTransaction(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     amount = db.Column(db.Numeric, nullable=False)
-#     from_user = db.Column(db.id, db.ForeignKey(User.id))
-#     to_user = db.Column(db.String, nullable=False)
+     def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+class BankTransaction(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    amount = db.Column(db.Numeric, nullable=False)
+    from_user = db.Column(db.id, db.ForeignKey(User.id))
+    to_bank_account = db.Column(db.String, nullable=False)
+    currency = db.Column(db.String(3), nullable=False)
