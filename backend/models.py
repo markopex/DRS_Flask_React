@@ -92,8 +92,8 @@ class Account(db.Model):
 class OnlineTransaction(db.Model):
      id = db.Column(db.Integer, primary_key=True)
      amount = db.Column(db.Numeric, nullable=False)
-     from_user = db.Column(db.id, db.ForeignKey(User.id))
-     to_user = db.Column(db.id, db.ForeignKey(User.id))
+     from_user = db.Column(db.Integer, db.ForeignKey(User.id))
+     to_user = db.Column(db.Integer, db.ForeignKey(User.id))
      currency = db.Column(db.String(3), nullable=False)
 
      def save(self):
@@ -103,6 +103,6 @@ class OnlineTransaction(db.Model):
 class BankTransaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Numeric, nullable=False)
-    from_user = db.Column(db.id, db.ForeignKey(User.id))
+    from_user = db.Column(db.Integer, db.ForeignKey(User.id))
     to_bank_account = db.Column(db.String, nullable=False)
     currency = db.Column(db.String(3), nullable=False)

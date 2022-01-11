@@ -31,6 +31,8 @@ def create_app(config):
     api.add_namespace(auth_ns)
     api.add_namespace(trans_ns)
 
+    with app.app_context():
+        db.create_all()
 
     @app.shell_context_processor
     def make_shell_context():
