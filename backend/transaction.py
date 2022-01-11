@@ -88,12 +88,13 @@ class TransferToUser(Resource):
                             id = str(uuid.uuid4()),
                             user_id = userTo.id,
                             balance=0,
-                            currency="RSD",
+                            currency=accountFrom.currency,
                             )
+            accountTo.save()
         
         amount = Decimal(data['amount'])
 
-        accountTo.save()
+        
 
         if((accountFrom.balance - amount) < 0):
             return jsonify({"message": f"Unable to transfer money. Lack of money."})
@@ -217,5 +218,5 @@ class Exchange(Resource):
         accountTo.UpdateBalance(new_currenct_amount)
 
         accountTo.save()
-        
+
         return jsonify({"message": f"Money successfully exchanged!"})
